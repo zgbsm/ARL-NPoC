@@ -26,5 +26,5 @@ class Plugin(BasePlugin):
             })
         except Exception:
             pass
-        if reverse.check(rev_token):
+        if reverse.check(rev_token) is not None:
             return url

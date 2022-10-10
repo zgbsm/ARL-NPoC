@@ -16,5 +16,5 @@ def check(token):
     resp = r.json()
     if resp["success"]:
         if resp["message"]["requested"]:
-            return True
-    return False
+            return resp
+    return None
