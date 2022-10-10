@@ -27,4 +27,5 @@ class Plugin(BasePlugin):
         except Exception:
             pass
         if reverse.check(rev_token) is not None:
+            self.logger.success("MinIO SSRF {}".format(url))
             return url
