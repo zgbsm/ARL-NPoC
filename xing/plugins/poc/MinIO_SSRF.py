@@ -10,7 +10,7 @@ class Plugin(BasePlugin):
     def __init__(self):
         super(Plugin, self).__init__()
         self.plugin_type = PluginType.POC
-        self.vul_name = "MinIO SSRF"
+        self.vul_name = "MinIO SSRF CVE-2021-21287"
         self.app_name = "MinIO"
         self.scheme = [SchemeType.HTTP, SchemeType.HTTPS]
 
@@ -29,7 +29,7 @@ class Plugin(BasePlugin):
                     "token": "test"
                 },
                 "method": "web.LoginSTS"
-            })
+            }, verify=False)
         except Exception:
             pass
         if reverse.check(rev_token) is not None:
