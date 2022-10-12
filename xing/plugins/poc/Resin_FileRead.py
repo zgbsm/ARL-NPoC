@@ -16,7 +16,7 @@ class Plugin(BasePlugin):
         url = target + "/resin-doc/viewfile/?file=WEB-INF/resin-web.xml"
         resp = ""
         try:
-            resp = requests.get(url).content
+            resp = requests.get(url, verify=False).content
         except Exception:
             pass
         if 'xmlns="http://caucho.com/ns/resin"' in resp:
